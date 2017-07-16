@@ -34,8 +34,8 @@ public class CreateLayout02 {
 		String content = "내용내용내용내용내용\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n내용내용내용내내용내용내용내용내용내용내용내용내용내용내용";
 //		String imageUrl = "136632479348083320170610154426.png";
 		ArrayList<String> imageList = new ArrayList<>();
-		imageList.add("136632479348083320170610154426.png");
-		imageList.add("136632479348083320170610154426.png");
+		imageList.add("136632479348083320170610182817.jpg");
+		imageList.add("136632479348083320170610182817.jpg");
 		ArrayList<String> referenceList = new ArrayList<>();
 		referenceList.add("http://naver.com");
 		referenceList.add("http://daum.net");
@@ -56,14 +56,23 @@ public class CreateLayout02 {
 //		Add Image
 
 		float imgWidth = Math.round((float)(PageSize.A4.getWidth())/imageList.size() - ((imageList.size()-1)/2));
-		float imgHeight = height*3/7;
+		float imgHeight = height*0.45f;//3/7;
 		for(int i=0; i<imageList.size(); i++){
 			Image tempImg = Image.getInstance(imageList.get(i));
 			float origWidth = tempImg.getWidth();
 			float origHeight = tempImg.getHeight();
-			tempImg.scaleAbsoluteWidth(imgWidth);
-			tempImg.scaleAbsoluteHeight(origHeight*imgWidth/origWidth);
-		    Image img = cropImage(tempImg, writer, 0, 0, imgWidth, imgHeight); 
+			
+			float calWidth = imgWidth;
+			float calHeight = origHeight*imgWidth/origWidth;
+			
+			if(calHeight < imgHeight){
+				calHeight = imgHeight;
+				calWidth = origWidth * calHeight / origHeight;
+			}
+			
+			tempImg.scaleAbsoluteWidth(calWidth);
+			tempImg.scaleAbsoluteHeight(calHeight);
+			Image img = cropImage(tempImg, writer, Math.max(0, tempImg.getScaledWidth()/2 - imgWidth/2), Math.max(0, tempImg.getScaledHeight()/2 - imgHeight/2), imgWidth, imgHeight); 
 			
 		    img.setAbsolutePosition(imgWidth*i + i*(imageList.size()/2), document.top()-imgHeight+padding);
 		    document.add(img);
