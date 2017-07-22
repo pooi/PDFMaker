@@ -39,6 +39,10 @@ public class LayoutToPDF {
 		map.put("layout", 4);
 		list.add(map);
 		
+		map = new HashMap<>();
+		map.put("layout", -1);
+		list.add(map);
+		
 		GeneratePDF g = new GeneratePDF(list);
 		g.start();
 		

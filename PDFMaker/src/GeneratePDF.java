@@ -47,6 +47,10 @@ public class GeneratePDF extends Thread{
 					CreateLayout05 layout05 = new CreateLayout05();
 					layout05.create(document, writer);
 					break;
+				case -1:
+					CreateLayoutImage layoutImage = new CreateLayoutImage();
+					layoutImage.create(document, writer);
+					break;
 				}
 //				if(i < list.size() -1){
 //					document.newPage();
