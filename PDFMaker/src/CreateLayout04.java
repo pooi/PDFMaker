@@ -1,6 +1,7 @@
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -19,7 +20,7 @@ public class CreateLayout04 {
 	
 	private int padding = 10;
 
-	public void create(Document document, PdfWriter writer) throws DocumentException, IOException {
+	public void create(Document document, PdfWriter writer, HashMap<String, Object> data) throws DocumentException, IOException {
 		// TODO Auto-generated method stub
 //		Document document = new Document(PageSize.A4, padding, padding, padding, padding);
 //		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("layout04.pdf"));
@@ -29,18 +30,13 @@ public class CreateLayout04 {
 		
 		float width = PageSize.A4.getWidth()/2 - padding*2;
 		float height = PageSize.A4.getHeight();
-		
-		String title = "제목";
-		String content = "내용내용내용내용내용\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n내용내용내용내내용내용내용내용내용내용내용내용내용내용내용";
-//		String imageUrl = "136632479348083320170610154426.png";
-		ArrayList<String> imageList = new ArrayList<>();
-		imageList.add("136632479348083320170610182817.jpg");
-		imageList.add("136632479348083320170610182817.jpg");
-		imageList.add("136632479348083320170610182817.jpg");
-		ArrayList<String> referenceList = new ArrayList<>();
-		referenceList.add("http://naver.com");
-		referenceList.add("http://news.sbs.co.kr/news/endPage.do?news_id=N1004287114");
-		
+
+		String title = (String)data.get("title");
+		String content = (String)data.get("content");
+		content.replaceAll("\n", "\n");
+		ArrayList<String> imageList = (ArrayList<String>)data.get("picture");
+		ArrayList<String> referenceList = (ArrayList<String>)data.get("url");
+
 		String reference = "";
 		for(int i=0; i<referenceList.size(); i++){
 			reference += referenceList.get(i);
@@ -62,19 +58,19 @@ public class CreateLayout04 {
 			Image tempImg = Image.getInstance(imageList.get(i));
 			float origWidth = tempImg.getWidth();
 			float origHeight = tempImg.getHeight();
-			
+
 			float calWidth = imgWidth;
 			float calHeight = origHeight*imgWidth/origWidth;
-			
+
 			if(calHeight < imgHeight){
 				calHeight = imgHeight;
 				calWidth = origWidth * calHeight / origHeight;
 			}
-			
+
 			tempImg.scaleAbsoluteWidth(calWidth);
 			tempImg.scaleAbsoluteHeight(calHeight);
-			Image img = cropImage(tempImg, writer, Math.max(0, tempImg.getScaledWidth()/2 - imgWidth/2), Math.max(0, tempImg.getScaledHeight()/2 - imgHeight/2), imgWidth, imgHeight); 
-			
+			Image img = cropImage(tempImg, writer, Math.max(0, tempImg.getScaledWidth()/2 - imgWidth/2), Math.max(0, tempImg.getScaledHeight()/2 - imgHeight/2), imgWidth, imgHeight);
+
 //		    img.setAbsolutePosition(imgWidth + i*(imageList.size()/2), document.top()-imgHeight+padding);
 		    img.setAbsolutePosition(0, imgHeight * i + i*(imageList.size()/2));
 		    document.add(img);
@@ -109,15 +105,17 @@ public class CreateLayout04 {
 	    	float emptyFontSize = (float)(emptyContentHeight / 1.5);
 		    document.add(new Paragraph(" ", new Font(objBaseFont, emptyFontSize)));
 	    }
-	    
-	    LineSeparator sep = new LineSeparator();
-	    sep.setOffset(-10);
-	    sep.setLineColor(new BaseColor(230, 230, 230));
-	    document.add(sep);
-	    document.add(new Paragraph(" ", new Font(objBaseFont, (float) (10.0f/1.5))));
-	    
-	    Paragraph referenceP = new Paragraph(reference, fontBuilder(objBaseFont, 10, new BaseColor(128, 128, 128)));
-	    document.add(referenceP);
+
+	    if(referenceList.size() > 0) {
+			LineSeparator sep = new LineSeparator();
+			sep.setOffset(-10);
+			sep.setLineColor(new BaseColor(230, 230, 230));
+			document.add(sep);
+			document.add(new Paragraph(" ", new Font(objBaseFont, (float) (10.0f / 1.5))));
+
+			Paragraph referenceP = new Paragraph(reference, fontBuilder(objBaseFont, 10, new BaseColor(128, 128, 128)));
+			document.add(referenceP);
+		}
 	    
 //	    document.close();
 	    

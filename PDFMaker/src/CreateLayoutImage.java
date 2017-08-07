@@ -1,6 +1,7 @@
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -22,7 +23,7 @@ public class CreateLayoutImage {
 	
 	private int padding = 10;
 
-	public void create(Document document, PdfWriter writer) throws DocumentException, IOException {
+	public void create(Document document, PdfWriter writer, HashMap<String, Object> data) throws DocumentException, IOException {
 		// TODO Auto-generated method stub
 //		Document document = new Document(PageSize.A4, padding, padding, padding, padding);
 //		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("layout03.pdf"));
@@ -32,19 +33,19 @@ public class CreateLayoutImage {
 		
 		float width = PageSize.A4.getWidth() - padding*2;
 		float height = PageSize.A4.getHeight();
-		
-		String imageUrl = "136632479348083320170610182817.jpg";
-		ArrayList<String> referenceList = new ArrayList<>();
-		referenceList.add("http://naver.com");
-		referenceList.add("http://daum.net");
-		
-		String reference = "";
-		for(int i=0; i<referenceList.size(); i++){
-			reference += referenceList.get(i);
-			if(i < referenceList.size()-1){
-				reference += "\n";
-			}
-		}
+
+//		String title = (String)data.get("title");
+//		String content = (String)data.get("content");
+		ArrayList<String> imageList = (ArrayList<String>)data.get("picture");
+//		ArrayList<String> referenceList = (ArrayList<String>)data.get("url");
+
+//		String reference = "";
+//		for(int i=0; i<referenceList.size(); i++){
+//			reference += referenceList.get(i);
+//			if(i < referenceList.size()-1){
+//				reference += "\n";
+//			}
+//		}
 
 		BaseFont objBaseFont = BaseFont.createFont("NanumGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 		Font objFont = new Font(objBaseFont, 12);
@@ -55,29 +56,28 @@ public class CreateLayoutImage {
 
 		float imgWidth = PageSize.A4.getWidth();
 		float imgHeight = height;
-		{
-			Image tempImg = Image.getInstance(imageUrl);
+		if(imageList.size() > 0){
+			Image tempImg = Image.getInstance(imageList.get(0));
 			float origWidth = tempImg.getWidth();
 			float origHeight = tempImg.getHeight();
-			
+
 			float calWidth = imgWidth;
 			float calHeight = origHeight*imgWidth/origWidth;
-			
+
 			if(calHeight < imgHeight){
 				calHeight = imgHeight;
 				calWidth = origWidth * calHeight / origHeight;
 			}
-			
+
 			tempImg.scaleAbsoluteWidth(calWidth);
 			tempImg.scaleAbsoluteHeight(calHeight);
-			Image img = cropImage(tempImg, writer, Math.max(0, tempImg.getScaledWidth()/2 - imgWidth/2), Math.max(0, tempImg.getScaledHeight()/2 - imgHeight/2), imgWidth, imgHeight); 
-			
-		    img.setAbsolutePosition(0, document.top()-imgHeight+padding);
+			Image img = cropImage(tempImg, writer, Math.max(0, tempImg.getScaledWidth()/2 - imgWidth/2), Math.max(0, tempImg.getScaledHeight()/2 - imgHeight/2), imgWidth, imgHeight);
+
+			img.setAbsolutePosition(0, document.top()-imgHeight+padding);
 		    document.add(img);
 		}
 	    
-	    
-//	    document.close();
+
 	    
 	    System.out.println("Done");
 

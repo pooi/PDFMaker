@@ -43,7 +43,7 @@ public class LayoutToPDF {
 		map.put("layout", -1);
 		list.add(map);
 		
-		GeneratePDF g = new GeneratePDF(list);
+		GeneratePDF g = new GeneratePDF(list, "Layout00.pdf");
 		g.start();
 		
 		try{
