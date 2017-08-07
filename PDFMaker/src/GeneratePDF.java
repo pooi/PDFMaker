@@ -32,6 +32,7 @@ public class GeneratePDF extends Thread{
 			
 			for(int i=0; i<list.size(); i++){
 				HashMap<String, Object> map = list.get(i);
+				System.out.println((i+1) + "/" + list.size());
 				int layout = (int)map.get("layout");
 				switch(layout){
 				case 0:

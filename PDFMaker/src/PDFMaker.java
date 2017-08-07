@@ -15,15 +15,16 @@ public class PDFMaker {
 	private static final String GET_TOP_COLUMN_WITH_DAY
 	= "select * from columnTbl WHERE day = ? order by heart DESC limit 0, 30;";
 	private static final String GET_TOP_PHOTO_WITH_DAY
-	= "select * from articleTbl WHERE day = ? order by heart DESC limit 0, 30;";
+	= "select * from photoDetailTbl WHERE day = ? order by heart DESC limit 0, 30;";
 
 	public static void main(String[] args) {
 		
 		String day = "0";
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
-		list.addAll(getArticle(day));
+//		list.addAll(getArticle(day));
 		list.addAll(getColumn(day));
+//		list.addAll(getPhoto(day));
 		
 		Collections.shuffle(list);
 		
@@ -57,6 +58,9 @@ public class PDFMaker {
             	String picture = rs.getString("picture");
             	ArrayList<String> picList = new ArrayList<>();
             	for(String pic : picture.split(",")){
+            		if("".equals(pic)){
+            			continue;
+            		}
             		picList.add(pic);
             	}
             	map.put("picture", picList);
@@ -65,6 +69,9 @@ public class PDFMaker {
             	String url = rs.getString("url");
             	ArrayList<String> urlList = new ArrayList<>();
             	for(String u : url.split(",")){
+            		if("".equals(u)){
+            			continue;
+            		}
             		urlList.add(u);
             	}
             	map.put("url", urlList);
@@ -103,6 +110,9 @@ public class PDFMaker {
             	String picture = rs.getString("picture");
             	ArrayList<String> picList = new ArrayList<>();
             	for(String pic : picture.split(",")){
+            		if("".equals(pic)){
+            			continue;
+            		}
             		picList.add(pic);
             	}
             	map.put("picture", picList);
@@ -111,6 +121,9 @@ public class PDFMaker {
             	String url = rs.getString("url");
             	ArrayList<String> urlList = new ArrayList<>();
             	for(String u : url.split(",")){
+            		if("".equals(u)){
+            			continue;
+            		}
             		urlList.add(u);
             	}
             	map.put("url", urlList);
@@ -130,7 +143,8 @@ public class PDFMaker {
         return list;
 	}
 	
-	public static void getPhoto(String day){
+	public static ArrayList<HashMap<String, Object>> getPhoto(String day){
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
         Connection connect = null;
         try {
@@ -141,7 +155,23 @@ public class PDFMaker {
             
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-            	
+
+            	HashMap<String, Object> map = new HashMap<>();
+            	map.put("id", rs.getString("id"));
+            	map.put("userId", rs.getString("userId"));
+            	map.put("layout", -1);
+            	String picture = rs.getString("photo");
+            	ArrayList<String> picList = new ArrayList<>();
+            	for(String pic : picture.split(",")){
+            		if("".equals(pic)){
+            			continue;
+            		}
+            		picList.add(pic);
+            	}
+            	map.put("picture", picList);
+            	map.put("day", rs.getString("day"));
+            	map.put("heart", rs.getInt("heart"));
+            	list.add(map);
             }
             
         } catch (Exception e) {
@@ -149,6 +179,7 @@ public class PDFMaker {
         } finally {
             DbConnectionPools.closeResources(connect, pstmt);
         }
+        return list;
 	}
 
 }
