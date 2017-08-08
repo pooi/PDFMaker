@@ -19,14 +19,30 @@ public class PDFMaker {
 
 	public static void main(String[] args) {
 		
-		String day = "0";
+		String day = "20180209";
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
-//		list.addAll(getArticle(day));
+		list.addAll(getArticle(day));
 		list.addAll(getColumn(day));
-//		list.addAll(getPhoto(day));
-		
+		ArrayList<HashMap<String, Object>> tempImgList = new ArrayList<>();
+		tempImgList.addAll(getPhoto(day));
+		ArrayList<HashMap<String, Object>> topImgList = new ArrayList<>();
+		if(tempImgList.size()>0){
+			topImgList.add(tempImgList.get(0));
+			if(tempImgList.size()>1){
+				topImgList.add(tempImgList.get(1));
+			}
+		}
+		for(HashMap<String, Object> m : topImgList){
+			tempImgList.remove(m);
+		}
+		list.addAll(tempImgList);
 		Collections.shuffle(list);
+		
+		for(int i=0; i<topImgList.size(); i++){
+			int index = i * list.size();
+			list.add(index, topImgList.get(i));
+		}
 		
 		GeneratePDF g = new GeneratePDF(list, "Day_magazine_" + day + ".pdf");
 		g.start();
@@ -64,8 +80,8 @@ public class PDFMaker {
             		picList.add(pic);
             	}
             	map.put("picture", picList);
-            	map.put("title", rs.getString("title"));
-            	map.put("content", rs.getString("content"));
+            	map.put("title", convertString(rs.getString("title")));
+            	map.put("content", convertString(rs.getString("content")));
             	String url = rs.getString("url");
             	ArrayList<String> urlList = new ArrayList<>();
             	for(String u : url.split(",")){
@@ -116,8 +132,8 @@ public class PDFMaker {
             		picList.add(pic);
             	}
             	map.put("picture", picList);
-            	map.put("title", rs.getString("title"));
-            	map.put("content", rs.getString("content"));
+            	map.put("title", convertString(rs.getString("title")));
+            	map.put("content", convertString(rs.getString("content")));
             	String url = rs.getString("url");
             	ArrayList<String> urlList = new ArrayList<>();
             	for(String u : url.split(",")){
@@ -180,6 +196,12 @@ public class PDFMaker {
             DbConnectionPools.closeResources(connect, pstmt);
         }
         return list;
+	}
+	
+	public static String convertString(String str){
+		str = str.replaceAll("\\\\n", "\n");
+		str = str.replaceAll("\\\\\"", "\"");
+		return str;
 	}
 
 }

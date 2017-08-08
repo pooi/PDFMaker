@@ -33,8 +33,7 @@ public class CreateLayout02 {
 		
 		String title = (String)data.get("title");
 		String content = (String)data.get("content");
-		System.out.println(content);
-		content.replaceAll("\\\\\"", "\\\"");
+		
 		ArrayList<String> imageList = (ArrayList<String>)data.get("picture");
 		ArrayList<String> referenceList = (ArrayList<String>)data.get("url");
 		
