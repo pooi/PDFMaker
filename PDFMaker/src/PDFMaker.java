@@ -19,7 +19,7 @@ public class PDFMaker {
 
 	public static void main(String[] args) {
 		
-		String day = "20180209";
+		String day = "20180210";
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		list.addAll(getArticle(day));
