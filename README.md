@@ -8,11 +8,11 @@ It is a program that produces one complete PDF file with five layouts. This prog
 
 ## Layouts
 <ul>
-  <li>Layout 1 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout01.pdf">this</a> file.<li>
-  <li>Layout 2 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout02.pdf">this</a> file.<li>
-  <li>Layout 3 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout03.pdf">this</a> file.<li>
-  <li>Layout 4 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout04.pdf">this</a> file.<li>
-  <li>Layout 5 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout05.pdf">this</a> file.<li>
+  <li>Layout 1 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout01.pdf">this</a> file.</li>
+  <li>Layout 2 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout02.pdf">this</a> file.</li>
+  <li>Layout 3 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout03.pdf">this</a> file.</li>
+  <li>Layout 4 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout04.pdf">this</a> file.</li>
+  <li>Layout 5 - Please refer to <a href="https://github.com/pooi/PDFMaker/blob/master/PDFMaker/layout05.pdf">this</a> file.</li>
 </ul>
 
 <br><br>
